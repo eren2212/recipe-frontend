@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Alert, View, Text, TextInput, Pressable } from "react-native";
+import {
+  Alert,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { supabase } from "@/lib/supabase";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import BaseImage from "@/components/image/BaseImage";
@@ -23,53 +31,57 @@ export default function Login() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView className="flex-1 bg-background">
-        <View className="flex-1 justify-start items-center px-6">
-          <BaseImage source={require("../../../assets/images/i1.png")} />
-          <Text className="text-3xl font-bold text-text mb-8">
-            Tekrar Hoş Geldiniz
-          </Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <SafeAreaView className="flex-1 bg-background">
+          <View className="flex-1 justify-start items-center px-6">
+            <BaseImage source={require("../../../assets/images/i1.png")} />
+            <Text className="text-3xl font-bold text-text mb-8">
+              Tekrar Hoş Geldiniz
+            </Text>
 
-          <View className="w-full space-y-4 gap-5 ">
-            <View>
-              <TextInput
-                className="border border-border rounded-2xl p-4  text-base bg-gray-50"
-                onChangeText={setEmail}
-                value={email}
-                placeholder=" Enter email"
-                keyboardType="email-address"
-                autoCapitalize="none"
+            <View className="w-full space-y-4 gap-5 ">
+              <View>
+                <TextInput
+                  className="border border-border rounded-2xl p-4  text-base bg-gray-50"
+                  onChangeText={setEmail}
+                  value={email}
+                  placeholder=" Email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+              </View>
+
+              <View>
+                <TextInput
+                  className="border border-border rounded-2xl p-4 text-base bg-gray-50"
+                  onChangeText={setPassword}
+                  value={password}
+                  placeholder="Şifre"
+                  secureTextEntry
+                />
+              </View>
+
+              <Button
+                onPress={signInWithEmail}
+                title="Giriş Yap"
+                loading={loading}
+                loadingText="Giriş Yapılıyor.."
               />
-            </View>
 
-            <View>
-              <TextInput
-                className="border border-border rounded-2xl p-4 text-base bg-gray-50"
-                onChangeText={setPassword}
-                value={password}
-                placeholder="Enter password"
-                secureTextEntry
-              />
-            </View>
-
-            <Button
-              onPress={signInWithEmail}
-              title="Giriş Yap"
-              loading={loading}
-              loadingText="Giriş Yapılıyor.."
-            />
-
-            <View className="flex justify-center items-center flex-row">
-              <Text className="text-textLight">Hesabınız yok mu? </Text>
-              <Link href="/register" asChild>
-                <Pressable>
-                  <Text className="text-primary font-bold">Hesap Oluştur</Text>
-                </Pressable>
-              </Link>
+              <View className="flex justify-center items-center flex-row">
+                <Text className="text-textLight">Hesabınız yok mu? </Text>
+                <Link href="/register" asChild>
+                  <Pressable>
+                    <Text className="text-primary font-bold">
+                      Hesap Oluştur
+                    </Text>
+                  </Pressable>
+                </Link>
+              </View>
             </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     </SafeAreaProvider>
   );
 }
