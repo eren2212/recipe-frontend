@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase";
 export default function Recipe() {
   return (
     <SafeAreaProvider>
-      <SafeAreaView className="flex justify-center items-center">
+      <SafeAreaView className="flex-1 justify-center items-center bg-background ">
         <Text className="text-3xl text-red-800">Favorite sayfası</Text>
         <Pressable onPress={() => supabase.auth.signOut()}>
           <MaterialIcons name="logout" size={40} color="black" />

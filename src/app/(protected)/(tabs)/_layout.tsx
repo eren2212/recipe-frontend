@@ -2,10 +2,24 @@ import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { theme } from "tailwind.config";
 
 export default function TabsLayout() {
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        animation: "fade",
+        tabBarStyle: {
+          height: 60,
+          elevation: 5,
+          borderRadius: 100,
+          marginVertical: 30,
+          marginHorizontal: 60,
+        },
+        tabBarActiveTintColor: theme.extend.colors.primary,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
@@ -33,7 +47,7 @@ export default function TabsLayout() {
         options={{
           title: "Favorites",
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name="favorite" size={24} color="black" />
+            <MaterialIcons name="favorite" size={size} color={color} />
           ),
         }}
       />
