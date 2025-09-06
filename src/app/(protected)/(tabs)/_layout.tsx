@@ -21,15 +21,6 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
-        options={{
-          title: "Search",
-          tabBarIcon: ({ size, color }) => (
-            <FontAwesome name="search" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="recipe"
         options={{
           title: "Recipes",
@@ -39,6 +30,15 @@ export default function TabsLayout() {
               size={size}
               color={color}
             />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ size, color }) => (
+            <FontAwesome name="search" size={size} color={color} />
           ),
         }}
       />
