@@ -39,6 +39,10 @@ export default function Recipe() {
     strCategoryThumb: string;
   }> | null>(null);
 
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
+
   const randomMeal = async () => {
     try {
       setLoading(true);
@@ -161,19 +165,30 @@ export default function Recipe() {
             </View>
           </View>
         </View>
+
+        <FlatList
+          data={categories}
+          horizontal
+          className="rounded-2xl m-6  "
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) => item.idCategory}
+          renderItem={({ item }) => {
+            const isSelected = item.idCategory === selectedCategoryId;
+
+            return (
+              <TouchableOpacity
+                onPress={() => setSelectedCategoryId(item.idCategory)}
+                className="mr-4"
+              >
+                <CategorieItem
+                  item={item}
+                  selected={isSelected} // 📌 prop olarak seçili mi gönderebiliriz
+                />
+              </TouchableOpacity>
+            );
+          }}
+        />
       </SafeAreaView>
-      <FlatList
-        data={categories}
-        renderItem={({ item }) => (
-          <View className="mr-5">
-            <CategorieItem item={item} />
-          </View>
-        )}
-        keyExtractor={(item) => item.idCategory}
-        horizontal={true} // 📌 Bu parametre yatay yapar
-        showsHorizontalScrollIndicator={false}
-        className="rounded-2xl m-6 border-red-500 border-2 "
-      />
     </SafeAreaProvider>
   );
 }
