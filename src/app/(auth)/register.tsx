@@ -22,18 +22,30 @@ export default function Login() {
   const [loading, setLoading] = useState<boolean>(false);
   async function signUpWithEmail() {
     setLoading(true);
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-    if (error) Alert.alert(error.message);
-    if (!session) {
-      router.push({ pathname: "/verification", params: { email } });
+
+    try {
+      const { data, error } = await supabase.auth.signUp({ email, password });
+
+      if (error) {
+        Alert.alert(error.message);
+      }
+      // Aynı e-posta tekrar kaydedilmeye çalışıldığında identities boş gelir
+      else if (data.user?.identities?.length === 0) {
+        Alert.alert("Bu e-posta zaten kayıtlı!");
+      } else {
+        // Kullanıcı yeni oluşturulduysa
+        if (!data.session) {
+          // E-posta doğrulama gerekiyorsa verification sayfasına yönlendir
+          router.push({ pathname: "/verification", params: { email } });
+        } else {
+          // Eğer confirmation kapalıysa kullanıcı direkt giriş yapar
+          // Burada anasayfaya yönlendirebilirsin
+          router.push("/(protected)");
+        }
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
