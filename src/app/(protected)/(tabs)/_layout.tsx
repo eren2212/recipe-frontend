@@ -21,7 +21,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="recipe"
+        name="index"
         options={{
           title: "Recipes",
           tabBarIcon: ({ size, color }) => (
@@ -34,7 +34,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="index"
+        name="search"
         options={{
           title: "Search",
           tabBarIcon: ({ size, color }) => (
