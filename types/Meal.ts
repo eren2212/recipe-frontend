@@ -13,6 +13,7 @@ export interface RecipeDetail {
 
 export interface MealData {
   meals: Array<{
+    idMeal: string;
     strMealThumb: string;
     strArea: string;
     strMeal: string;
