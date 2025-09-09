@@ -26,7 +26,6 @@ export default function MealItem({
         `${baseUrl}/filter.php?c=${isSelectedName}`
       );
       setCategoryMeals(response.data.meals || []);
-      console.log(response.data.meals);
     } catch (err) {
       console.log(err);
     } finally {
@@ -42,12 +41,19 @@ export default function MealItem({
   return (
     <View className="ml-8">
       <Text className="text-text text-2xl font-bold">{isSelectedName}</Text>
-
-      <FlatList
-        data={categoryMeals}
-        keyExtractor={(item) => item.idMeal}
-        renderItem={({ item }) => <ItemCard item={item} />}
-      />
+      <View className="flex justify-center items-center">
+        <FlatList
+          data={categoryMeals}
+          keyExtractor={(item) => item.idMeal}
+          renderItem={({ item }) => {
+            return <ItemCard item={item} />;
+          }}
+          numColumns={2}
+          key="two-columns" // ⭐ Bu önemli - numColumns değişikliği için
+          nestedScrollEnabled={true}
+          scrollEnabled={false}
+        />
+      </View>
     </View>
   );
 }

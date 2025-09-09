@@ -114,81 +114,91 @@ export default function Recipe() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
-        <View className="flex justify-center items-center">
-          <View className="flex flex-row justify-center items-center mt-4">
-            {imagesPath.map((path, index) => {
-              return <Image key={index} source={path} className="w-32 h-32" />;
-            })}
-          </View>
-          <View className="w-[350] h-[250]  mt-5 relative">
-            <Image
-              source={{ uri: strMealThumb }}
-              className="w-full h-full  rounded-2xl opacity-55"
-              resizeMode="cover"
-            />
-            <Text className=" absolute top-5 left-5 text-sm font-medium opacity-80 text-white bg-primary/70 p-3 rounded-2xl">
-              Popüler
-            </Text>
+      <SafeAreaView className="flex-1">
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          <View className="flex justify-center items-center">
+            {/* Üst kısım - resimler */}
+            <View className="flex flex-row justify-center items-center mt-4">
+              {imagesPath.map((path, index) => {
+                return (
+                  <Image key={index} source={path} className="w-32 h-32" />
+                );
+              })}
+            </View>
 
-            <Text className="text-2xl text-white font-bold absolute bottom-14 left-4">
-              {strMeal}
-            </Text>
-            <View className="absolute bottom-4 left-4 justify-center items-center flex-row gap-6">
-              <View className="flex-row justify-center items-center ">
-                <Ionicons
-                  name="time-outline"
-                  size={20}
-                  color="white"
-                  className="opacity-90"
-                />
-                <Text className="text-white font-semibold ml-2">30 Dakika</Text>
-              </View>
-              <View className="flex-row justify-center items-center">
-                <Feather
-                  name="users"
-                  size={18}
-                  color="white"
-                  className="opacity-90"
-                />
-                <Text className="text-white font-semibold ml-2">4</Text>
-              </View>
+            {/* Featured meal card */}
+            <View className="w-[350] h-[250] mt-5 relative">
+              <Image
+                source={{ uri: strMealThumb }}
+                className="w-full h-full rounded-2xl opacity-55"
+                resizeMode="cover"
+              />
+              <Text className=" absolute top-5 left-5 text-sm font-medium opacity-80 text-white bg-primary/70 p-3 rounded-2xl">
+                Popüler
+              </Text>
 
-              <View className="flex-row justify-center items-center">
-                <EvilIcons name="location" size={24} color="white" />
-                <Text className="text-white font-semibold ml-2">{strArea}</Text>
+              <Text className="text-2xl text-white font-bold absolute bottom-14 left-4">
+                {strMeal}
+              </Text>
+              <View className="absolute bottom-4 left-4 justify-center items-center flex-row gap-6">
+                <View className="flex-row justify-center items-center ">
+                  <Ionicons
+                    name="time-outline"
+                    size={20}
+                    color="white"
+                    className="opacity-90"
+                  />
+                  <Text className="text-white font-semibold ml-2">
+                    30 Dakika
+                  </Text>
+                </View>
+                <View className="flex-row justify-center items-center">
+                  <Feather
+                    name="users"
+                    size={18}
+                    color="white"
+                    className="opacity-90"
+                  />
+                  <Text className="text-white font-semibold ml-2">4</Text>
+                </View>
+
+                <View className="flex-row justify-center items-center">
+                  <EvilIcons name="location" size={24} color="white" />
+                  <Text className="text-white font-semibold ml-2">
+                    {strArea}
+                  </Text>
+                </View>
               </View>
             </View>
+
+            {/* Kategoriler - Yatay FlatList */}
+            <FlatList
+              data={categories}
+              horizontal
+              className="rounded-2xl m-6"
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.idCategory}
+              nestedScrollEnabled={true}
+              renderItem={({ item }) => {
+                const isSelected = item.idCategory === selectedCategoryId;
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectedCategoryId(item.idCategory);
+                      setSelectedCategoryName(item.strCategory);
+                    }}
+                    className="mr-4"
+                  >
+                    <CategorieItem item={item} selected={isSelected} />
+                  </TouchableOpacity>
+                );
+              }}
+            />
           </View>
 
-          <FlatList
-            data={categories}
-            horizontal
-            className="rounded-2xl m-6  "
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => item.idCategory}
-            renderItem={({ item }) => {
-              const isSelected = item.idCategory === selectedCategoryId;
-
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedCategoryId(item.idCategory);
-                    setSelectedCategoryName(item.strCategory);
-                  }}
-                  className="mr-4"
-                >
-                  <CategorieItem
-                    item={item}
-                    selected={isSelected} // 📌 prop olarak seçili mi gönderebiliriz
-                  />
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </View>
-
-        <MealItem isSelectedName={selectedCategoryName} />
+          {/* Meal Items */}
+          <MealItem isSelectedName={selectedCategoryName} />
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
