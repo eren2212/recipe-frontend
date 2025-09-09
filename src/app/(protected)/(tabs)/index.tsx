@@ -58,7 +58,15 @@ export default function Recipe() {
     try {
       setLoading(true);
       const response = await axios.get(`${baseUrl}/categories.php`);
-      setCategories(response.data.categories);
+      const categoriesData = response.data.categories;
+      setCategories(categoriesData);
+      
+      // 🎯 İlk kategoriyi otomatik seç
+      if (categoriesData && categoriesData.length > 0) {
+        const firstCategory = categoriesData[0];
+        setSelectedCategoryId(firstCategory.idCategory);
+        setSelectedCategoryName(firstCategory.strCategory);
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -70,6 +78,15 @@ export default function Recipe() {
     randomMeal();
     getCategories();
   }, []);
+
+  // 🎯 Kategoriler yüklendiğinde ilk kategoriyi seç
+  useEffect(() => {
+    if (categories && categories.length > 0 && !selectedCategoryId) {
+      const firstCategory = categories[0];
+      setSelectedCategoryId(firstCategory.idCategory);
+      setSelectedCategoryName(firstCategory.strCategory);
+    }
+  }, [categories, selectedCategoryId]);
 
   // Loading durumu
   if (loading) {
