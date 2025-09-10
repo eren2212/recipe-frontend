@@ -13,6 +13,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import BaseImage from "@/components/image/BaseImage";
 import Button from "@/components/Button";
 import { Link } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -21,12 +22,17 @@ export default function Login() {
 
   async function signInWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
-    if (error) Alert.alert(error.message);
+    if (error) return Alert.alert(error.message);
     setLoading(false);
+
+    const token = data.session?.access_token;
+    AsyncStorage.setItem("supabase_token", token!);
+
+    return token;
   }
 
   return (
