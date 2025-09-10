@@ -11,6 +11,7 @@ export default function ProtectedLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="recipe" options={{ headerShown: false }} />
     </Stack>
   );
 }
