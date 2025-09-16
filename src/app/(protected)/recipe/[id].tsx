@@ -95,7 +95,7 @@ export default function ItemDetail() {
                 className="p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/20"
                 onPress={() => router.back()}
               >
-                <AntDesign name="arrowleft" size={24} color="white" />
+                <AntDesign name="arrow-left" size={24} color="white" />
               </Pressable>
 
               <Pressable className="p-3 rounded-full bg-primary backdrop-blur-sm border border-white/20">
